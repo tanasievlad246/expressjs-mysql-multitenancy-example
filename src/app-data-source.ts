@@ -4,9 +4,11 @@ export const myDataSource = new DataSource({
     type: "mysql",
     host: "localhost",
     port: 3306,
-    username: "root",
-    password: "root",
+    username: "mysqluser",
+    password: "password",
     database: "test",
-    entities: [__dirname + "/**/*.entity{.ts,.js}"],
-    synchronize: true
+    entities: ["src/models/*.entity{.ts,.js}"],
+    synchronize: true,
+    logging: true,
+    insecureAuth: true
 });

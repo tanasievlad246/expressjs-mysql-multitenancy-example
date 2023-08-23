@@ -1,0 +1,1 @@
+docker run -d --name mysql2-container -e MYSQL_ROOT_PASSWORD=my-secret-pw -p 3306:3306 mysql/mysql-server:8.0
