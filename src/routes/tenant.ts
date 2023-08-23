@@ -8,7 +8,7 @@ const router = Router();
 router.get('/', setTenant, async (req: Request, res: Response) => {
     const tenantName = req.tenant;
 
-    const tenant = await req.entityManager.connection.getRepository(Tenant).findOne({
+    const tenant = await myDataSource.getRepository(Tenant).findOne({
         where: {
             name: tenantName
         }
@@ -30,7 +30,7 @@ router.get('/', setTenant, async (req: Request, res: Response) => {
 router.post('/', async (req: Request, res: Response) => {
     try {
         const { name } = req.body;
-        console.log(req.body)
+
         await myDataSource.query(`CREATE SCHEMA IF NOT EXISTS ${name}`);
         await myDataSource.query(`USE ${name}`);
         await myDataSource.synchronize();
@@ -47,7 +47,7 @@ router.post('/', async (req: Request, res: Response) => {
     } catch (error) {
         res.status(400).json({
             status: 'fail',
-            message: error.message
+            message: error
         });
     }
 });

@@ -6,9 +6,8 @@ export const myDataSource = new DataSource({
     port: 3306,
     username: "mysqluser",
     password: "password",
-    database: "test",
     entities: ["src/models/*.entity{.ts,.js}"],
+    database: "default_db",
     synchronize: true,
-    logging: true,
-    insecureAuth: true
+    logging: false,
 });

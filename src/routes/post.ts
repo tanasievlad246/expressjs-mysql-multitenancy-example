@@ -13,7 +13,6 @@ router.get('/', setTenant, async (req: Request, res: Response) => {
             data: results
         });
     } catch (error) {
-        console.log(error);
         res.status(400).json({
             status: 'fail',
             message: error.message
@@ -36,7 +35,6 @@ router.post('/', setTenant, async (req: Request, res: Response) => {
             data: results
         });
     } catch (error) {
-        console.log(error);
         res.status(400).json({
             status: 'fail',
             message: error
