@@ -27,18 +27,35 @@ router.get('/', setTenant, async (req: Request, res: Response) => {
     });
 });
 
+const syncTenantSchema = async (tenantName: string) => {
+    await myDataSource.query(`CREATE SCHEMA IF NOT EXISTS ${tenantName};`);
+    await myDataSource.query(`USE ${tenantName};`);
+    await myDataSource.synchronize();
+}
+
 router.post('/', async (req: Request, res: Response) => {
     try {
         const { name } = req.body;
+        await myDataSource.query(`USE default_db;`);
+        const tenantAlreadyExists = await myDataSource.getRepository(Tenant).findOne({
+            where: {
+                name
+            }
+        });
 
-        await myDataSource.query(`CREATE SCHEMA IF NOT EXISTS ${name}`);
-        await myDataSource.query(`USE ${name}`);
-        await myDataSource.synchronize();
+        if (tenantAlreadyExists) {
+            return res.status(400).json({
+                status: 'fail',
+                message: 'Tenant already exists!'
+            });
+        }
 
         const user = myDataSource.getRepository(Tenant).create({
             name,
         });
         const results = await myDataSource.getRepository(Tenant).save(user);
+
+        await syncTenantSchema(name);
 
         res.status(200).json({
             status: 'success',
