@@ -5,7 +5,6 @@ import tenantRouter from './routes/tenant';
 
 const app: Express = express();
 
-app.set('trust proxy', true);
 app.use(json());
 
 app.use('/api/v1/posts', postRouter);

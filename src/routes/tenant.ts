@@ -7,7 +7,7 @@ const router = Router();
 
 router.get('/', setTenant, async (req: Request, res: Response) => {
     const tenantName = req.tenant;
-
+    await myDataSource.query(`USE default_db;`);
     const tenant = await myDataSource.getRepository(Tenant).findOne({
         where: {
             name: tenantName
